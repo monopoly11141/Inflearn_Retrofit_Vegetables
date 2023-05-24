@@ -8,19 +8,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.inflearn_retrofit_vegetables.api.PlantsApi
 import com.example.inflearn_retrofit_vegetables.api.RetrofitInstance
 import com.example.inflearn_retrofit_vegetables.model.Plant
+import com.example.inflearn_retrofit_vegetables.repository.Repository
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel : ViewModel() {
 
-    val TAG = this.javaClass.simpleName
+    private val TAG = this.javaClass.simpleName
 
-    val retrofitInstance = RetrofitInstance.getInstance().create(PlantsApi::class.java)
+    private val repository = Repository()
 
     private val _allPlants = MutableLiveData<List<Plant>>()
     val allPlants : LiveData<List<Plant>>
         get() = _allPlants
 
     fun getAllData() = viewModelScope.launch{
-        _allPlants.value = retrofitInstance.getAllPlants()
+        _allPlants.value = repository.getAllPlants()
     }
 }
